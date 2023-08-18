@@ -9,7 +9,6 @@ import (
 	"github.com/gofiber/template/django/v3"
 )
 
-var pages = []string{"pages/profile", "pages/games", "pages/highscores"}
 var score = 0
 
 func main() {
