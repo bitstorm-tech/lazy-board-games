@@ -1,6 +1,6 @@
 module github.com/bitstorm-tech/lazy-board-games
 
-go 1.21
+go 1.21.0
 
 require (
 	github.com/gofiber/fiber/v2 v2.48.0
