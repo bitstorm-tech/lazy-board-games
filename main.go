@@ -11,6 +11,30 @@ import (
 
 var score = 0
 
+type GameListItem struct {
+	Name            string
+	Description     string
+	ShowDescription bool
+}
+
+var gameListItems = []GameListItem{
+	{
+		Name:            "Chess",
+		Description:     "A two-player strategy board game played on a checkered board with 64 squares arranged in an 8×8 grid.",
+		ShowDescription: false,
+	},
+	{
+		Name:            "Checkers",
+		Description:     "A group of strategy board games for two players which involve diagonal moves of uniform game pieces and mandatory captures by jumping over opponent pieces.",
+		ShowDescription: false,
+	},
+	{
+		Name:            "Go",
+		Description:     "An abstract strategy board game for two players in which the aim is to surround more territory than the opponent.",
+		ShowDescription: false,
+	},
+}
+
 func main() {
 	log.Printf("Starting Lazy Board Games server ...")
 
@@ -50,15 +74,29 @@ func main() {
 		return c.SendString("1337")
 	})
 
-	registerTemplate(app, "pages/games")
-	registerTemplate(app, "pages/highscores")
-	registerTemplate(app, "pages/profile")
+	app.Get("/game-list", func(c *fiber.Ctx) error {
+		clicked := c.Query("clicked")
+
+		for gameListItem := range gameListItems {
+			if gameListItems[gameListItem].Name == clicked {
+				gameListItems[gameListItem].ShowDescription = !gameListItems[gameListItem].ShowDescription
+			} else {
+				gameListItems[gameListItem].ShowDescription = false
+			}
+		}
+
+		return c.Render("partials/game-list", fiber.Map{"games": gameListItems, "count": len(gameListItems)})
+	})
+
+	registerTemplate(app, "pages/games", nil)
+	registerTemplate(app, "pages/highscores", nil)
+	registerTemplate(app, "pages/profile", nil)
 
 	log.Fatal(app.Listen("localhost:3000"))
 }
 
-func registerTemplate(app *fiber.App, template string) {
+func registerTemplate(app *fiber.App, template string, bindings fiber.Map) {
 	app.Get("/"+template, func(c *fiber.Ctx) error {
-		return c.Render(template, nil)
+		return c.Render(template, bindings)
 	})
 }
