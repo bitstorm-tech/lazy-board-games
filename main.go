@@ -2,11 +2,14 @@ package main
 
 import (
 	"log"
+	"os"
 	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/django/v3"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 var score = 0
@@ -36,7 +39,11 @@ var gameListItems = []GameListItem{
 }
 
 func main() {
-	log.Printf("Starting Lazy Board Games server ...")
+	host := os.Getenv("HOST")
+	port := os.Getenv("PORT")
+	hostAndPort := host + ":" + port
+
+	log.Printf("Starting Lazy Board Games server (on %s) ...", hostAndPort)
 
 	engine := django.New("./views", ".html")
 
@@ -92,7 +99,7 @@ func main() {
 	registerTemplate(app, "pages/highscores", nil)
 	registerTemplate(app, "pages/profile", nil)
 
-	log.Fatal(app.Listen("localhost:3000"))
+	log.Fatal(app.Listen(hostAndPort))
 }
 
 func registerTemplate(app *fiber.App, template string, bindings fiber.Map) {
