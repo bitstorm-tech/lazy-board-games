@@ -1,10 +1,10 @@
 {% extends "index.html" %}
 {% block content %}
 <h1>Highscores</h1>
-<button class="btn" hx-get="/highscores/decrement" hx-target="#score">--</button>
-<button class="btn" hx-get="/highscores/increment" hx-target="#score">++</button>
-<button class="btn" hx-get="/highscores/reset" hx-target="#score">Reset</button>
-<button class="btn" hx-get="/wait" hx-target="#score" hx-indicator="#loading">Warte...</button>
+<button hx-get="/highscores/decrement" hx-target="#score">--</button>
+<button hx-get="/highscores/increment" hx-target="#score">++</button>
+<button hx-get="/highscores/reset" hx-target="#score">Reset</button>
+<button hx-get="/wait" hx-target="#score" hx-indicator="#loading">Warte...</button>
 <div id="score">0</div>
 <div id="loading" class="htmx-indicator">Warte halt mal ...</div>
 {% endblock %}

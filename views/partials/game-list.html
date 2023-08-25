@@ -1,7 +1,7 @@
 <section id="game-list" class="flex flex-col">
     {% for game in games %}
     <div class="flex flex-col my-1" hx-get="/game-list?clicked={{game.Name}}" hx-target="#game-list" hx-swap="outerHTML" hx-trigger="click">
-        <button class="btn">{{ game.Name }}</button>
+        <button>{{ game.Name }}</button>
         {% if game.ShowDescription %}
         <span class="p-4">{{ game.Description }}</span>
         {% endif %}

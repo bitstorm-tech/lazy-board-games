@@ -579,7 +579,7 @@ video {
   padding: 1rem;
 }
 
-.btn {
+button {
   margin: 0.5rem;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -603,12 +603,12 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.btn:hover {
+button:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(79 70 229 / var(--tw-bg-opacity));
 }
 
-.btn:focus {
+button:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
