@@ -1,6 +1,8 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -10,32 +12,16 @@ import (
 	"github.com/gofiber/template/django/v3"
 
 	_ "github.com/joho/godotenv/autoload"
+	_ "github.com/lib/pq"
 )
 
 var score = 0
 
 type GameListItem struct {
+	ID              string
 	Name            string
 	Description     string
 	ShowDescription bool
-}
-
-var gameListItems = []GameListItem{
-	{
-		Name:            "Chess",
-		Description:     "A two-player strategy board game played on a checkered board with 64 squares arranged in an 8×8 grid.",
-		ShowDescription: false,
-	},
-	{
-		Name:            "Checkers",
-		Description:     "A group of strategy board games for two players which involve diagonal moves of uniform game pieces and mandatory captures by jumping over opponent pieces.",
-		ShowDescription: false,
-	},
-	{
-		Name:            "Go",
-		Description:     "An abstract strategy board game for two players in which the aim is to surround more territory than the opponent.",
-		ShowDescription: false,
-	},
 }
 
 func main() {
@@ -44,6 +30,23 @@ func main() {
 	hostAndPort := host + ":" + port
 
 	log.Printf("Starting Lazy Board Games server (on %s) ...", hostAndPort)
+
+	pgHost := os.Getenv("PG_HOST")
+	pgPort := os.Getenv("PG_PORT")
+	pgDatabase := os.Getenv("PG_DATABASE")
+	pgUser := os.Getenv("PG_USER")
+	pgPassword := os.Getenv("PG_PASSWORD")
+
+	connectionString := fmt.Sprintf("host=%s port=%s user=%s dbname=%s", pgHost, pgPort, pgUser, pgDatabase)
+	log.Print("Connecting to database: ", connectionString)
+
+	connectionString += " password=" + pgPassword
+	db, err := sql.Open("postgres", connectionString)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 
 	engine := django.New("./views", ".html")
 
@@ -83,6 +86,24 @@ func main() {
 
 	app.Get("/game-list", func(c *fiber.Ctx) error {
 		clicked := c.Query("clicked")
+
+		rows, err := db.Query("select id, name, description from games_metadata")
+		if err != nil {
+			return c.SendString(err.Error())
+		}
+
+		var gameListItems []GameListItem
+
+		for rows.Next() {
+			var gameListItem GameListItem
+			err = rows.Scan(&gameListItem.ID, &gameListItem.Name, &gameListItem.Description)
+
+			if err != nil {
+				return c.SendString(err.Error())
+			}
+
+			gameListItems = append(gameListItems, gameListItem)
+		}
 
 		for gameListItem := range gameListItems {
 			if gameListItems[gameListItem].Name == clicked {

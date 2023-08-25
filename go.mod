@@ -6,6 +6,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/gofiber/template/django/v3 v3.1.5
 	github.com/joho/godotenv v1.5.1
+	github.com/lib/pq v1.10.9
 )
 
 require (
