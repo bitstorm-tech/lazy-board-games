@@ -2,10 +2,10 @@
 
 {% block content %}
 <form action="post" class="flex flex-col">
-  <input type="text" name="email" placeholder="E-Mail">
+  <input type="email" name="email" placeholder="E-Mail">
   <input type="text" name="nickname" placeholder="Nickname">
-  <input type="text" name="password" placeholder="Password">
-  <button hx-post="/create-profile" hx-target="#result">Create</button>
+  <input type="password" name="password" placeholder="Password">
+  <button hx-post="/create-account" hx-target="#result">Create</button>
   <span id="result" class="bg-blue-400 text-center"></span>
 </form>
 {% include "partials/game-list.html" %}

@@ -24,7 +24,7 @@ type GameListItem struct {
 	ShowDescription bool
 }
 
-type Profile struct {
+type Account struct {
 	ID       string
 	Email    string
 	Nickname string
@@ -123,24 +123,24 @@ func main() {
 		return c.Render("partials/game-list", fiber.Map{"games": gameListItems, "count": len(gameListItems)})
 	})
 
-	app.Post("/create-profile", func(c *fiber.Ctx) error {
-		newProfile := Profile{}
+	app.Post("/create-account", func(c *fiber.Ctx) error {
+		newAccount := Account{}
 
-		err := c.BodyParser(&newProfile)
+		err := c.BodyParser(&newAccount)
 		if err != nil {
 			log.Println("Can't parse request body:", err)
 			return c.SendString("ERROR")
 		}
 
-		log.Printf("Create new profile: %v\n", newProfile)
+		log.Printf("Create new account: %v\n", newAccount)
 
 		return c.SendString("DONE")
 	})
 
 	registerTemplate(app, "pages/games", nil)
 	registerTemplate(app, "pages/highscores", nil)
-	registerTemplate(app, "pages/profile", nil)
-	registerTemplate(app, "pages/create-profile", nil)
+	registerTemplate(app, "pages/account", nil)
+	registerTemplate(app, "pages/create-account", nil)
 
 	log.Fatal(app.Listen(hostAndPort))
 }
