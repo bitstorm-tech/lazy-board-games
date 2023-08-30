@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,8 @@
     <script src="/static/htmx.min.js" type="text/javascript"></script>
     <title>Lazy Board Games</title>s
     <style>
-        #header, #footer {
+        #header,
+        #footer {
             background-color: #333;
             color: #fff;
             padding: 10px 20px;
@@ -23,8 +25,10 @@
         }
 
         #content {
-            padding: 50px 20px 50px; /* Header height + padding + Footer height + padding */
-            max-height: calc(100% - 100px); /* 100% - (Header height + padding + Footer height + padding) */
+            padding: 50px 20px 50px;
+            /* Header height + padding + Footer height + padding */
+            max-height: calc(100% - 100px);
+            /* 100% - (Header height + padding + Footer height + padding) */
             overflow-y: scroll;
             overflow: hidden;
             position: relative;
@@ -32,17 +36,24 @@
         }
     </style>
 </head>
+
 <body>
 
-<header id="header" class="flex justify-between" hx-get="/menu" hx-target="#menu" hx-swap="outerHTML" hx-trigger="load">
-    <a href="/"><div>Lazy Board Games</div></a>
-    <div id="menu"></div>
-</header>
+    <header id="header" class="flex justify-between">
+        <a href="/">
+            <div>Lazy Board Games</div>
+        </a>
+        <div class="flex gap-2">
+            <a href="/games">Games</a> //
+            <a href="/highscores">Highscores</a> //
+            <a href="/account">Account</a> //
+            <a href="/create-account">Create Account</a>
+        </div>
+    </header>
 
-<section id="content">
-    {% block content %}
-    <h1>Welcome to Lazy Board Games!</h1>
-    {% endblock %}
-</section>
+    <section id="content">
+        {{ embed }}
+    </section>
 </body>
+
 </html>
