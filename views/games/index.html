@@ -1,6 +1,2 @@
-{% extends "index.html" %}
-
-{% block content %}
 <h1 class="mb-4" hx-get="/game-list" hx-swap="outerHTML" hx-trigger="load" hx-target="#game-list">Games</h1>
-{% include "partials/game-list.html" %}
-{% endblock %}
+<div id="game-list"></div>

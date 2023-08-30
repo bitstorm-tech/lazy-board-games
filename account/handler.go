@@ -1,8 +1,9 @@
 package account
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"log"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type Account struct {
@@ -14,11 +15,11 @@ type Account struct {
 
 func Register(app *fiber.App) {
 	app.Get("/account", func(c *fiber.Ctx) error {
-		return c.Render("account", nil)
+		return c.Render("account/index", nil, "layouts/main")
 	})
 
 	app.Get("/create-account", func(c *fiber.Ctx) error {
-		return c.Render("create-account", nil)
+		return c.Render("account/create-account", nil, "layouts/main")
 	})
 
 	app.Post("/create-account", handleCreateAccount)
