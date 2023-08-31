@@ -1,7 +1,7 @@
 package games
 
 import (
-	"github.com/bitstorm-tech/lazy-board-games/db"
+	"github.com/bitstorm-tech/lazy-board-games/internal/db"
 	"github.com/gofiber/fiber/v2"
 )
 
